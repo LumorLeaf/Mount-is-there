@@ -1,9 +1,53 @@
 #include"asp.h"
 #include<iostream>
+#include<random>
+
+int random_circle_number()
+{
+    std::random_device ran0;
+    std::mt19937 gen(ran0());
+    std::uniform_real_distribution<>dis(10,20);
+    return dis(gen);
+}
+int random_row_or_col()
+{
+    std::random_device ran1;
+    std::mt19937 gen(ran1());
+    std::uniform_real_distribution<>dis(12,19);
+    return dis(gen);
+}
+int random_rowa()
+{
+    std::random_device ran2;
+    std::mt19937 gen(ran2());
+    std::uniform_real_distribution<>dis(1,4);
+    return dis(gen);
+}
+int random_rowb()
+{
+    std::random_device ran3;
+    std::mt19937 gen(ran3());
+    std::uniform_real_distribution<>dis(1,4);
+    return dis(gen);
+}
+int random_cola()
+{
+    std::random_device ran4;
+    std::mt19937 gen(ran4());
+    std::uniform_real_distribution<>dis(1,5);
+    return dis(gen);
+}
+int random_colb()
+{
+    std::random_device ran5;
+    std::mt19937 gen(ran5());
+    std::uniform_real_distribution<>dis(1,5);
+    return dis(gen);
+}
 
 void problem::operow(int a,int b)//exchange row a with row b
 {
-    if (a < 0 || a >= 4 || b < 0 || b >= 4) // inspect available number
+    if (a <= 0 || a > 4 || b <= 0 || b > 4) // inspect available number
     {
         std::wcout << L"Invalid row indices" << std::endl;
         return;
@@ -11,41 +55,41 @@ void problem::operow(int a,int b)//exchange row a with row b
 
     for (int i = 0; i < 5; i++)//operate Scroll
     {
-        wchar_t temp=temp=Scroll[a][i];
-        Scroll[a][i]=Scroll[b][i];
-        Scroll[b][i]=temp;
+        wchar_t temp=Scroll[a-1][i];
+        Scroll[a-1][i]=Scroll[b-1][i];
+        Scroll[b-1][i]=temp;
     }
 
     for (int j = 0;  j< 5; j++)//operate Scrollmirror
     {
         int tempp = 0;
-        tempp = Scrollmirror[a*5+j];
-        Scrollmirror[a * 5 + j] = Scrollmirror[b * 5 + j];
-        Scrollmirror[b * 5 + j] = tempp;
+        tempp = Scrollmirror[(a-1)*5+j];
+        Scrollmirror[(a-1) * 5 + j] = Scrollmirror[(b-1) * 5 + j];
+        Scrollmirror[(b-1) * 5 + j] = tempp;
     }
 }
 
 void problem::opecol(int a,int b)//exchange column a with col b
 {
-    if (a < 0 || a >= 5 || b < 0 || b >= 5) // inspect available number
+    if (a <= 0 || a > 5 || b <= 0 || b > 5) // inspect available number
     {
         std::wcout << L"Invalid column indices" << std::endl;
         return;
     }
 
-    for (int i = 0; i < 5; i++)//operate Scroll
+    for (int i = 0; i < 4; i++)//operate Scroll
     {
-        wchar_t temp=Scroll[i][a];
-        Scroll[i][a]=Scroll[i][b];
-        Scroll[i][b]=temp;
+        wchar_t temp=Scroll[i][a-1];
+        Scroll[i][a-1]=Scroll[i][b-1];
+        Scroll[i][b-1]=temp;
     }
 
-    for (int j = 0; j < 5; j++)//operate Scrollmirror
+    for (int j = 0; j < 4; j++)//operate Scrollmirror
     {
         int tempp = 0;
-        tempp = Scrollmirror[a + j * 5];
-        Scrollmirror[a + j * 5] = Scrollmirror[b + j * 5];
-        Scrollmirror[b + j * 5] = tempp;
+        tempp = Scrollmirror[a-1 + j * 5];
+        Scrollmirror[a-1 + j * 5] = Scrollmirror[b-1 + j * 5];
+        Scrollmirror[b-1 + j * 5] = tempp;
     }
 }
 
@@ -92,4 +136,20 @@ bool problem::inspect()
     }
 
     
+}
+
+void problem::being_problem()
+{
+    for(int i=0;i<random_circle_number();i++)
+    {   
+        int ran=random_row_or_col();
+        if(ran%2==1)//row
+        {
+            problem::operow(random_rowa(),random_rowb());
+        }
+        else//col
+        {
+            problem::opecol(random_cola(),random_colb());
+        }
+    }
 }

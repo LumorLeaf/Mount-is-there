@@ -17,6 +17,9 @@ class problem
 
     //inspect if right
     bool inspect();
+
+    //being
+    void being_problem();
 };
 
 
