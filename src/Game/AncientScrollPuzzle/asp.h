@@ -18,8 +18,8 @@ public:
     //inspect if right
     bool inspect();
 
-    //being
-    void being_problem();
+    //generate
+    void generate_problem();
 
     //play
     void play();
