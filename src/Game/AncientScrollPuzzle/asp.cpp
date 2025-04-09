@@ -1,155 +1,29 @@
-#include"asp.h"
-#include<iostream>
-#include<random>
+#ifndef ASP_H
+#define ASP_H
 
-int random_circle_number()
+class problem
 {
-    std::random_device ran0;
-    std::mt19937 gen(ran0());
-    std::uniform_real_distribution<>dis(10,20);
-    return dis(gen);
-}
-int random_row_or_col()
-{
-    std::random_device ran1;
-    std::mt19937 gen(ran1());
-    std::uniform_real_distribution<>dis(12,19);
-    return dis(gen);
-}
-int random_rowa()
-{
-    std::random_device ran2;
-    std::mt19937 gen(ran2());
-    std::uniform_real_distribution<>dis(1,4);
-    return dis(gen);
-}
-int random_rowb()
-{
-    std::random_device ran3;
-    std::mt19937 gen(ran3());
-    std::uniform_real_distribution<>dis(1,4);
-    return dis(gen);
-}
-int random_cola()
-{
-    std::random_device ran4;
-    std::mt19937 gen(ran4());
-    std::uniform_real_distribution<>dis(1,5);
-    return dis(gen);
-}
-int random_colb()
-{
-    std::random_device ran5;
-    std::mt19937 gen(ran5());
-    std::uniform_real_distribution<>dis(1,5);
-    return dis(gen);
-}
+private:
+    wchar_t Scroll[4][5] = { L'床',L'前',L'明',L'月',L'光',L'疑',L'似',L'地',L'上',L'霜',L'举',L'头',L'望',L'明',L'月',L'低',L'头',L'思',L'故',L'乡' };
+    int Scrollmirror[20] = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 };
 
-void problem::operow(int a,int b)//exchange row a with row b
-{
-    if (a <= 0 || a > 4 || b <= 0 || b > 4) // inspect available number
-    {
-        std::wcout << L"Invalid row indices" << std::endl;
-        return;
-    }
+public:
+    //operation
+    void operow(int a, int b);
+    void opecol(int a, int b);
 
-    for (int i = 0; i < 5; i++)//operate Scroll
-    {
-        wchar_t temp=Scroll[a-1][i];
-        Scroll[a-1][i]=Scroll[b-1][i];
-        Scroll[b-1][i]=temp;
-    }
+    //print status
+    void print(void);
 
-    for (int j = 0;  j< 5; j++)//operate Scrollmirror
-    {
-        int tempp = 0;
-        tempp = Scrollmirror[(a-1)*5+j];
-        Scrollmirror[(a-1) * 5 + j] = Scrollmirror[(b-1) * 5 + j];
-        Scrollmirror[(b-1) * 5 + j] = tempp;
-    }
-}
+    //inspect if right
+    bool inspect();
 
-void problem::opecol(int a,int b)//exchange column a with col b
-{
-    if (a <= 0 || a > 5 || b <= 0 || b > 5) // inspect available number
-    {
-        std::wcout << L"Invalid column indices" << std::endl;
-        return;
-    }
+    //being
+    void being_problem();
 
-    for (int i = 0; i < 4; i++)//operate Scroll
-    {
-        wchar_t temp=Scroll[i][a-1];
-        Scroll[i][a-1]=Scroll[i][b-1];
-        Scroll[i][b-1]=temp;
-    }
+    //play
+    void play();
+};
 
-    for (int j = 0; j < 4; j++)//operate Scrollmirror
-    {
-        int tempp = 0;
-        tempp = Scrollmirror[a-1 + j * 5];
-        Scrollmirror[a-1 + j * 5] = Scrollmirror[b-1 + j * 5];
-        Scrollmirror[b-1 + j * 5] = tempp;
-    }
-}
 
-void problem::print(void)
-{
-    std::wcout.imbue(std::locale(""));//for cout chinese character
-    for(int i=0;i<4;i++)//Scroll
-    {
-        for(int j=0;j<5;j++)
-        {
-            std::wcout<<Scroll[i][j]<<L" ";
-        }
-        std::wcout<<"\n";
-    }
-
-    for (int i = 0; i < 20; i++)//mirror
-    {
-        std::cout << Scrollmirror[i] << " ";
-        if (i == 4||i==9||i==14||i==19)
-        {
-            std::cout << std::endl;
-        }
-    }
-}
-
-bool problem::inspect()
-{
-    int inspectnumber=0;
-    for(int i=0;i<20;i++)
-    {
-        if(Scrollmirror[i]==i+1)
-        {
-            inspectnumber++;
-        }
-    }
-
-    if (inspectnumber == 20)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-
-    
-}
-
-void problem::being_problem()
-{
-    for(int i=0;i<random_circle_number();i++)
-    {   
-        int ran=random_row_or_col();
-        if(ran%2==1)//row
-        {
-            problem::operow(random_rowa(),random_rowb());
-        }
-        else//col
-        {
-            problem::opecol(random_cola(),random_colb());
-        }
-    }
-}
+#endif
