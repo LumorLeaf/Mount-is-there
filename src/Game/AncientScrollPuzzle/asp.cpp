@@ -128,6 +128,7 @@ bool problem::inspect()
 
     if (inspectnumber == 20)
     {
+        std::cout << "You win!!!!!!!" << std::endl;
         return true;
     }
     else
@@ -182,11 +183,125 @@ void problem::play()
             opecol(a, b);
             print();
         }
+        else if (choose == "hint")
+        {
+            problem::hint();
+        }
+        else if (choose == "answer")
+        {
+            problem::answer();
+        }
         else
         {
-            std::cout << "please enter available number!" << std::endl;
+            std::cout << "please enter available words!" << std::endl;
             print();
         }
 
+    }
+}
+
+void problem::hint()
+{
+    bool finish = false;
+    for (int i = 0; i < 4; i++)
+    {
+        if (finish == true)
+        {
+            break;
+        }
+
+        for (int j = 0; j < 20; j++)
+        {
+            if (finish == true)
+            {
+                break;
+            }
+
+            int row = 0;
+            if (i * 5 + 1 == Scrollmirror[j])
+            {
+                row = j / 5 + 1;
+                if (i + 1 != row)
+                {
+                    problem::operow(i + 1, row);
+                    std::cout << "row:" << i + 1 << " " << row << std::endl;
+                    problem::print();
+                    finish = true;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+       
+    }
+    //col
+    for (int i = 0; i < 5; i++)
+    {
+        if (finish == true)
+        {
+            break;
+        }
+
+        for (int j = 0; j < 20; j++)
+        {
+            if (finish == true)
+            {
+                break;
+            }
+
+            int col = 0;
+            if (i == Scrollmirror[j] - 1)
+            {
+                col = j % 5 + 1;
+                if (i + 1 != col) 
+                {
+                    problem::opecol(i + 1, col);
+                    std::cout << "col:" << j + 1 << " " << col << std::endl;
+                    problem::print();
+                    finish = true;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+    }
+}
+
+void problem::answer()
+{
+    //row
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 20; j++)
+        {
+            int row = 0;
+            if (i * 5 + 1 == Scrollmirror[j])
+            {
+                row = j / 5 + 1;
+                problem::operow(i + 1, row);
+                std::cout << "row:" << i + 1 << " " << row << std::endl;
+                problem::print();
+            }
+        }
+    }
+
+    //col
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 20; j++)
+        {
+            int col = 0;
+            if (i == Scrollmirror[j] - 1)
+            {
+                col = j % 5 + 1;
+                problem::opecol(i + 1, col);
+                std::cout << "col:" << j + 1 << " " << col << std::endl;
+                problem::print();
+            }
+        }
     }
 }

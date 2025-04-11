@@ -23,6 +23,12 @@ public:
 
     //play
     void play();
+
+    //hint
+    void hint();
+
+    //answer
+    void answer();
 };
 
 
